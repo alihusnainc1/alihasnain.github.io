@@ -1,11 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ali Hasnain Cheema | Data Engineer & AI Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050810;
+  --bg2:#0b0f1e;
+  --glass:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
+  --accent:#6c63ff;
+  --accent2:#00d4ff;
+  --accent3:#ff6b6b;
+  --text:#e8eaf0;
+  --muted:#7a7f9a;
+  --card:rgba(255,255,255,0.03);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* Animated background */
+body::before{
+  content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at 20% 20%,rgba(108,99,255,0.12) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(0,212,255,0.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 50% 50%,rgba(255,107,107,0.04) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(5,8,16,0.8);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--glass-border);
+}
+.nav-logo{
+  font-weight:800;font-size:1.1rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.5px;
+}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  color:var(--muted);text-decoration:none;font-size:0.85rem;font-weight:500;
+  transition:color 0.3s;letter-spacing:0.5px;text-transform:uppercase;
+}
+.nav-links a:hover{color:var(--text)}
+
+/* SECTIONS */
+section{position:relative;z-index:1}
+
+/* HERO */
+#hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:6rem 2rem 4rem;text-align:center;
+}
+.hero-inner{max-width:800px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.3);
+  padding:0.4rem 1rem;border-radius:50px;font-size:0.8rem;color:var(--accent);
+  margin-bottom:2rem;font-family:'JetBrains Mono',monospace;
+}
+.hero-badge::before{content:'';width:8px;height:8px;background:#4cff91;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{
+  font-size:clamp(2.5rem,7vw,5rem);font-weight:900;line-height:1.05;
+  letter-spacing:-2px;margin-bottom:1rem;
+}
+.grad-text{
+  background:linear-gradient(135deg,#fff 0%,var(--accent) 50%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:clamp(1rem,2.5vw,1.25rem);color:var(--muted);
+  margin-bottom:2rem;font-weight:400;line-height:1.6;max-width:600px;margin-left:auto;margin-right:auto;
+}
+.hero-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:0.6rem;margin-bottom:2.5rem}
+.tag{
+  background:var(--glass);border:1px solid var(--glass-border);
+  padding:0.35rem 0.8rem;border-radius:6px;font-size:0.78rem;
+  color:var(--muted);font-family:'JetBrains Mono',monospace;
+}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  padding:0.75rem 1.75rem;border-radius:10px;font-weight:600;font-size:0.9rem;
+  text-decoration:none;transition:all 0.3s;cursor:pointer;border:none;
+  display:inline-flex;align-items:center;gap:0.5rem;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#8b84ff);color:#fff;
+  box-shadow:0 0 30px rgba(108,99,255,0.4);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(108,99,255,0.6)}
+.btn-secondary{
+  background:var(--glass);border:1px solid var(--glass-border);color:var(--text);
+}
+.btn-secondary:hover{background:rgba(255,255,255,0.07);transform:translateY(-2px)}
+
+/* SECTION COMMON */
+.section{padding:5rem 2rem}
+.container{max-width:1000px;margin:0 auto}
+.section-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+  color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:0.75rem;
+}
+.section-title{
+  font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;
+  letter-spacing:-1px;margin-bottom:1rem;
+}
+.section-line{
+  width:50px;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:2px;margin-bottom:3rem;
+}
+
+/* ABOUT */
+#about .about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;
+}
+.about-text p{color:var(--muted);line-height:1.8;margin-bottom:1rem;font-size:0.95rem}
+.about-text p span{color:var(--text);font-weight:500}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stat-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:1.25rem;text-align:center;
+  transition:border-color 0.3s;
+}
+.stat-card:hover{border-color:rgba(108,99,255,0.4)}
+.stat-num{
+  font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-label{font-size:0.78rem;color:var(--muted);margin-top:0.25rem}
+
+/* EXPERIENCE */
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),transparent);
+}
+.tl-item{position:relative;margin-bottom:2.5rem}
+.tl-dot{
+  position:absolute;left:-2.42rem;top:0.3rem;
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 12px rgba(108,99,255,0.6);
+}
+.tl-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;padding:1.5rem;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.tl-card:hover{border-color:rgba(108,99,255,0.35);transform:translateX(4px)}
+.tl-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem}
+.tl-role{font-weight:700;font-size:1rem;color:var(--text)}
+.tl-date{
+  font-size:0.75rem;font-family:'JetBrains Mono',monospace;
+  color:var(--accent);background:rgba(108,99,255,0.12);
+  padding:0.25rem 0.6rem;border-radius:5px;white-space:nowrap;
+}
+.tl-company{font-size:0.88rem;color:var(--accent2);font-weight:500;margin-bottom:1rem}
+.tl-card ul{list-style:none;display:flex;flex-direction:column;gap:0.4rem}
+.tl-card li{
+  font-size:0.84rem;color:var(--muted);padding-left:1rem;position:relative;line-height:1.5;
+}
+.tl-card li::before{
+  content:'▸';position:absolute;left:0;color:var(--accent);font-size:0.7rem;top:0.1rem;
+}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.skill-cat{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;padding:1.5rem;transition:border-color 0.3s;
+}
+.skill-cat:hover{border-color:rgba(108,99,255,0.35)}
+.skill-cat-title{
+  font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--accent);margin-bottom:1rem;font-family:'JetBrains Mono',monospace;
+}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill-tag{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  padding:0.3rem 0.7rem;border-radius:6px;font-size:0.78rem;color:var(--text);
+  transition:all 0.2s;
+}
+.skill-tag:hover{background:rgba(108,99,255,0.2);border-color:rgba(108,99,255,0.4);color:#fff}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.proj-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;padding:1.5rem;
+  transition:border-color 0.3s,transform 0.3s;
+  display:flex;flex-direction:column;
+}
+.proj-card:hover{border-color:rgba(108,99,255,0.35);transform:translateY(-4px)}
+.proj-icon{
+  width:42px;height:42px;border-radius:10px;
+  background:linear-gradient(135deg,rgba(108,99,255,0.3),rgba(0,212,255,0.3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:1rem;
+}
+.proj-title{font-weight:700;font-size:0.95rem;margin-bottom:0.5rem}
+.proj-desc{font-size:0.83rem;color:var(--muted);line-height:1.6;flex:1;margin-bottom:1rem}
+.proj-stack{display:flex;flex-wrap:wrap;gap:0.4rem}
+.proj-tech{
+  font-size:0.72rem;font-family:'JetBrains Mono',monospace;
+  background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);
+  color:var(--accent2);padding:0.2rem 0.5rem;border-radius:4px;
+}
+
+/* EDUCATION */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.edu-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:14px;padding:1.5rem;transition:border-color 0.3s;
+}
+.edu-card:hover{border-color:rgba(108,99,255,0.35)}
+.edu-degree{font-weight:700;font-size:0.95rem;margin-bottom:0.25rem}
+.edu-school{font-size:0.85rem;color:var(--accent2);margin-bottom:0.5rem}
+.edu-date{font-size:0.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:1rem}
+.edu-courses{display:flex;flex-wrap:wrap;gap:0.4rem}
+.edu-course{
+  font-size:0.72rem;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);color:var(--muted);
+  padding:0.2rem 0.5rem;border-radius:4px;
+}
+
+/* AWARDS */
+.awards-row{display:flex;flex-wrap:wrap;gap:1rem}
+.award-card{
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:12px;padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;flex:1;min-width:260px;
+  transition:border-color 0.3s;
+}
+.award-card:hover{border-color:rgba(255,107,107,0.4)}
+.award-icon{font-size:1.75rem}
+.award-title{font-weight:600;font-size:0.9rem}
+.award-sub{font-size:0.78rem;color:var(--muted)}
+
+/* CONTACT / FOOTER */
+#contact{
+  padding:5rem 2rem;text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(108,99,255,0.05));
+}
+.contact-card{
+  max-width:600px;margin:0 auto;
+  background:var(--glass);border:1px solid var(--glass-border);
+  border-radius:20px;padding:3rem 2rem;
+}
+.contact-card h2{font-size:1.8rem;font-weight:800;margin-bottom:0.5rem;letter-spacing:-0.5px}
+.contact-card p{color:var(--muted);margin-bottom:2rem;font-size:0.9rem}
+.contact-links{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.contact-link{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.6rem 1.2rem;border-radius:8px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);
+  color:var(--text);text-decoration:none;font-size:0.85rem;font-weight:500;
+  transition:all 0.3s;
+}
+.contact-link:hover{background:rgba(108,99,255,0.2);border-color:rgba(108,99,255,0.4)}
+footer{
+  text-align:center;padding:1.5rem;
+  border-top:1px solid var(--glass-border);
+  font-size:0.78rem;color:var(--muted);
+}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{display:none}
+  #about .about-grid,.edu-grid{grid-template-columns:1fr}
+  .about-stats{grid-template-columns:1fr 1fr}
+}
+</style>
 </head>
 <body>
-    <h1>Hello World!</h1>
+
+<nav>
+  <div class="nav-logo">AHC</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span></span> Available for new opportunities
+    </div>
+    <h1><span class="grad-text">Ali Hasnain</span><br/>Cheema</h1>
+    <p class="hero-sub">Senior Data Engineer & AI Specialist — building enterprise data infrastructure, intelligent pipelines, and scalable analytics solutions.</p>
+    <div class="hero-tags">
+      <span class="tag">Data Engineering</span>
+      <span class="tag">Machine Learning</span>
+      <span class="tag">ETL Pipelines</span>
+      <span class="tag">Cloud & BI</span>
+      <span class="tag">DWH Architecture</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://www.linkedin.com/in/ali-hasnain-cheema-774661166" target="_blank" class="btn btn-primary">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:alihasnain.cheema@gmail.com" class="btn btn-secondary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Email Me
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="container fade-up">
+    <div class="section-label">// about</div>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="section-line"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a <span>Senior Data Engineer & AI Consultant</span> based in <span>Straubing, Germany</span>, with 5+ years of experience building data-driven solutions across telecom, healthcare, and automotive industries.</p>
+        <p>I specialize in designing <span>enterprise data warehouses</span>, engineering <span>ETL pipelines</span>, and applying <span>machine learning</span> to solve complex business problems — from financial forecasting to computer vision.</p>
+        <p>Currently at <span>Evidanza AG</span>, I deliver high-performance BI and planning infrastructure for top automotive clients in Germany.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">Years Experience</div></div>
+        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Industries Served</div></div>
+        <div class="stat-card"><div class="stat-num">6+</div><div class="stat-label">Major Projects</div></div>
+        <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Stanford Certs</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section" style="padding-top:0">
+  <div class="container fade-up">
+    <div class="section-label">// experience</div>
+    <h2 class="section-title">Work History</h2>
+    <div class="section-line"></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-role">Sr. Data Engineer — Consultant Data Management</div>
+            <div class="tl-date">Jun 2022 — Present</div>
+          </div>
+          <div class="tl-company">Evidanza AG · Straubing, Germany</div>
+          <ul>
+            <li>Designed and implemented enterprise-grade DWH for automotive clients supporting financial and operational planning</li>
+            <li>Engineered multidimensional data models and OLAP cubes using MSAS and SSIS</li>
+            <li>Developed robust ETL pipelines integrating data from diverse ERP systems into a centralized DWH</li>
+            <li>Enhanced system performance via advanced indexing, table partitioning, and query optimization</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-role">Executive IT — Data Science & Data Management</div>
+            <div class="tl-date">May 2021 — Apr 2022</div>
+          </div>
+          <div class="tl-company">Zong CMPAK · Islamabad, Pakistan</div>
+          <ul>
+            <li>Built end-to-end ETL pipelines sourcing data to AI teams for predictive modeling from heterogeneous sources</li>
+            <li>Analyzed and reported key business KPIs (Revenue, Churn, ARPU) using Amazon QuickSight</li>
+            <li>Developed a Python-based wrapper to auto-generate queries, scheduled on Apache Airflow</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-role">Data Scientist</div>
+            <div class="tl-date">Jun 2019 — May 2021</div>
+          </div>
+          <div class="tl-company">CareCloud (MTBC) · Rawalpindi, Pakistan</div>
+          <ul>
+            <li>Automated Payroll and Bonus modules for the HR Department</li>
+            <li>Built financial forecasting models for insurance amount/days predictions</li>
+            <li>Developed an Interactive Voice Response system for incoming claims</li>
+            <li>Created face authentication and employee activity analysis system</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-role">Machine Learning Associate</div>
+            <div class="tl-date">Feb 2019 — Jun 2019</div>
+          </div>
+          <div class="tl-company">SnapThat · Islamabad, Pakistan</div>
+          <ul>
+            <li>Developed a visual search engine to find clothes from 65+ brands using YOLO v3</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section" style="padding-top:0">
+  <div class="container fade-up">
+    <div class="section-label">// skills</div>
+    <h2 class="section-title">Tech Stack</h2>
+    <div class="section-line"></div>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Languages & Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">C++</span>
+          <span class="skill-tag">MySQL</span><span class="skill-tag">Teradata</span><span class="skill-tag">Shell Script</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Data Engineering & ETL</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ETL Pipelines</span><span class="skill-tag">SSIS</span><span class="skill-tag">SAP Data Services</span>
+          <span class="skill-tag">Apache Airflow</span><span class="skill-tag">Teradata TPT</span><span class="skill-tag">Hadoop</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">BI & Analytics</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SSAS / OLAP</span><span class="skill-tag">Power BI</span><span class="skill-tag">Amazon QuickSight</span>
+          <span class="skill-tag">Data Visualization</span><span class="skill-tag">ERP Systems</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">ML & AI</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TensorFlow</span><span class="skill-tag">PyTorch</span><span class="skill-tag">Keras</span>
+          <span class="skill-tag">Scikit-learn</span><span class="skill-tag">YOLO</span><span class="skill-tag">Computer Vision</span>
+          <span class="skill-tag">NLP</span><span class="skill-tag">Deep Learning</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS Lambda</span><span class="skill-tag">S3</span><span class="skill-tag">Terraform</span>
+          <span class="skill-tag">Docker</span><span class="skill-tag">GitHub</span><span class="skill-tag">GitLab</span><span class="skill-tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">Libraries & Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Pandas</span><span class="skill-tag">NumPy</span><span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">Flask</span><span class="skill-tag">BeautifulSoup</span><span class="skill-tag">RASA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section" style="padding-top:0">
+  <div class="container fade-up">
+    <div class="section-label">// projects</div>
+    <h2 class="section-title">Key Projects</h2>
+    <div class="section-line"></div>
+    <div class="projects-grid">
+      <div class="proj-card">
+        <div class="proj-icon">🏗️</div>
+        <div class="proj-title">Enterprise DWH for BI & Planning</div>
+        <div class="proj-desc">Automated data integration and modeling enabling scalable BI and planning solutions with minimal technical overhead.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">SAP</span><span class="proj-tech">MS Dynamics</span><span class="proj-tech">SSAS</span><span class="proj-tech">SQL</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">☁️</div>
+        <div class="proj-title">ETL Pipeline — Spotify Data Lake</div>
+        <div class="proj-desc">Extracted Spotify playlist data and loaded it into an AWS S3 data lake via serverless Lambda functions with Terraform IaC.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">AWS Lambda</span><span class="proj-tech">S3</span><span class="proj-tech">Terraform</span><span class="proj-tech">CloudWatch</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">🎙️</div>
+        <div class="proj-title">Claim Transcription System</div>
+        <div class="proj-desc">Transcribed incoming medical claim audio files into structured Word documents using speech-to-text and intent classification.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">DeepSpeech</span><span class="proj-tech">NLP</span><span class="proj-tech">SQL</span><span class="proj-tech">Airflow</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">👁️</div>
+        <div class="proj-title">Face Recognition System</div>
+        <div class="proj-desc">Detected and recognized human faces using CNNs in Keras with the FaceNet architecture trained on the LFW dataset.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">Python</span><span class="proj-tech">Keras</span><span class="proj-tech">FaceNet</span><span class="proj-tech">SQL</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">🤖</div>
+        <div class="proj-title">Interactive Voice Responder (IVR)</div>
+        <div class="proj-desc">Built a conversational bot for TalkEHR using speech-to-text, RASA NLU intent classification, and RASA Core actions.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">RASA</span><span class="proj-tech">DeepSpeech</span><span class="proj-tech">Python</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon">📈</div>
+        <div class="proj-title">Insurance Forecasting Model</div>
+        <div class="proj-desc">Predicted insurance reimbursement amounts and processing days using ensemble methods for financial planning.</div>
+        <div class="proj-stack">
+          <span class="proj-tech">Random Forest</span><span class="proj-tech">XGBoost</span><span class="proj-tech">Pandas</span><span class="proj-tech">QuickSight</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="section" style="padding-top:0">
+  <div class="container fade-up">
+    <div class="section-label">// education</div>
+    <h2 class="section-title">Education & Certifications</h2>
+    <div class="section-line"></div>
+    <div class="edu-grid" style="margin-bottom:2rem">
+      <div class="edu-card">
+        <div class="edu-degree">MS — Artificial Intelligence & Data Science</div>
+        <div class="edu-school">Technische Hochschule Deggendorf</div>
+        <div class="edu-date">Feb 2022 – Jul 2022 · Deggendorf, Germany</div>
+        <div class="edu-courses">
+          <span class="edu-course">Advanced ML</span><span class="edu-course">Big Data</span>
+          <span class="edu-course">NLP</span><span class="edu-course">AI Fundamentals</span><span class="edu-course">Data Viz</span>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">BS — Computer Science</div>
+        <div class="edu-school">NUCES — FAST · Islamabad</div>
+        <div class="edu-date">Aug 2015 – Jun 2019 · Islamabad, Pakistan</div>
+        <div class="edu-courses">
+          <span class="edu-course">Deep Learning</span><span class="edu-course">AI</span>
+          <span class="edu-course">Data Mining</span><span class="edu-course">Distributed Computing</span>
+        </div>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <div class="skill-cat-title">Certifications</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Machine Learning — CS229, Stanford</span>
+          <span class="skill-tag">CNN for Visual Recognition — CS231n, Stanford</span>
+          <span class="skill-tag">Business Analytics — Premier Star Technology</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="section" style="padding-top:0">
+  <div class="container fade-up">
+    <div class="section-label">// awards</div>
+    <h2 class="section-title">Honours & Awards</h2>
+    <div class="section-line"></div>
+    <div class="awards-row">
+      <div class="award-card">
+        <div class="award-icon">🥈</div>
+        <div><div class="award-title">Runner-up — Data Science Competition</div><div class="award-sub">NaSCon 2019 · NUCES, FAST</div></div>
+      </div>
+      <div class="award-card">
+        <div class="award-icon">🥇</div>
+        <div><div class="award-title">Gold Medal — Mathematics Contest</div><div class="award-sub">International Kangaroo Mathematics Contest</div></div>
+      </div>
+      <div class="award-card">
+        <div class="award-icon">🎓</div>
+        <div><div class="award-title">CS Event Organizer</div><div class="award-sub">Battle of Brains & Poster Design — NUCES, FAST</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container fade-up">
+    <div class="contact-card">
+      <h2>Let's Work Together</h2>
+      <p>Open to senior data engineering roles, AI consulting projects, and exciting new challenges in Germany and beyond.</p>
+      <div class="contact-links">
+        <a href="mailto:alihasnain.cheema@gmail.com" class="contact-link">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          alihasnain.cheema@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/ali-hasnain-cheema-774661166" target="_blank" class="contact-link">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="tel:+4915217698754" class="contact-link">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.42 2 2 0 0 1 3.62 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +49 152 17698754
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Ali Hasnain Cheema · Straubing, Germany · Built with passion for data</p>
+</footer>
+
+<script>
+// Scroll animation
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
